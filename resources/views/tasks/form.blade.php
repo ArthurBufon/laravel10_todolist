@@ -15,6 +15,9 @@
                 </div>
                 <form method="POST" action="{{ route('task_store') }}">
                     @csrf
+
+                    <input type="hidden" name="task_id" id="task_id" value="{{ $task->id }}">
+
                     <div class="card-body">
                         {{-- TITULO --}}
                         <div class="form-group">

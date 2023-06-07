@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('descricao');
-            $table->boolean('pendente');
+            $table->boolean('importante')->default(0);
+            $table->boolean('pendente')->default(1);
             $table->timestamps();
         });
     }

@@ -31,6 +31,11 @@
                             <input value="{{ $task->descricao ?? '' }}" type="text" class="form-control" id="descricao"
                                 name="descricao">
                         </div>
+                        {{-- IMPORTANTE --}}
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="importante" name="importante">
+                            <label class="form-check-label" for="importante">Importante</label>
+                        </div>
                     </div>
 
                     <div class="card-footer">

@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->string('titulo');
+            $table->string('descricao');
+            $table->boolean('concluido');
+            $table->boolean('pendente');
             $table->timestamps();
         });
     }

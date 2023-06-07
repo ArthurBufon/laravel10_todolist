@@ -60,7 +60,7 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
 
-        if(!$task){
+        if (!$task) {
             return redirect()->back();
         }
         Task::destroy($id);
@@ -68,5 +68,47 @@ class TaskController extends Controller
         $tasks = Task::all();
 
         return view('tasks.index', compact('tasks'));
+    }
+
+    // LISTA TAREFAS
+    public function list()
+    {
+        $tasks = Task::all();
+
+        $pendentes = '';
+        $importantes = '';
+
+        foreach ($tasks as $task) {
+            if(($task->pendente === 1) && ($task->importante === 1)){
+                $importantes .=
+                '<div class="card">'
+                    . '<div class="card-header bg-purple">'
+                        . '<div class="row">'
+                            . '<span class="col-md-6"> ' . $task->titulo . ' </span>'
+                            . '<span class="col-md-6">'
+                            . '<button type="button" class="btn btn-sm" style="color:white; float:right;">'
+                            . '<span class=" fa fa-trash"></span>'
+                            . '</button>'
+                            . '<a href="' . route('task_edit', ['id' => $task->id]) . '" style="color:white; float:right;"><span class="btn-sm fa fa-pen ml-2"></span></a>'
+                            . '</span>'
+                        . '</div>'
+                    . '</div>'
+                    . '<div class="card-body">' . $task->descricao . '</div>'
+                . '</div>';
+            }
+        }
+
+        // tarefas importantes
+        $tarefas_importantes =
+        '<div class="card">'
+            . '<div class="card-header bg-purple"><span class="fa fa-star mr-2"></span>Importante</div>'
+            . '<div class="card-body" style="overflow-y: scroll; height: 420px;">'
+                . $importantes
+            . '</div>'
+        . '</div>';
+
+        $retorno['importantes'] = $tarefas_importantes;
+
+        return $retorno;
     }
 }

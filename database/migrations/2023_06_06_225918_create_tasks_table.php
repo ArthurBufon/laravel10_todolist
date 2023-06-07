@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->string('descricao');
-            $table->boolean('concluido');
             $table->boolean('pendente');
             $table->timestamps();
         });

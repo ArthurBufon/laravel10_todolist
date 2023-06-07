@@ -5,7 +5,7 @@
 @section('header', 'Listando Tarefas')
 
 @section('content')
-<a href="{{ route('dashboard') }}" class="btn bg-purple"><&nbsp;Voltar</a>
+<a href="{{ route('dashboard') }}" class="btn bg-purple mb-3"><span class="fa fa-arrow-left mr-2"></span>Voltar</a>
     <div class="row">
         <div class="col-md-5" style="margin:auto">
 
@@ -16,7 +16,7 @@
                 <form method="POST" action="{{ route('task_store') }}">
                     @csrf
 
-                    <input type="hidden" name="task_id" id="task_id" value="{{ $task->id }}">
+                    <input type="hidden" name="task_id" id="task_id" value="{{ $task->id ?? '' }}">
 
                     <div class="card-body">
                         {{-- TITULO --}}
@@ -31,16 +31,6 @@
                             <input value="{{ $task->descricao ?? '' }}" type="text" class="form-control" id="descricao"
                                 name="descricao">
                         </div>
-                        @if (isset($task) && $task !== null)
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="pendente" name="pendente">
-                                <label class="form-check-label" for="pendente">Pendente</label>
-                            </div>
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="concluido" name="concluido">
-                                <label class="form-check-label" for="concluido">Concluído</label>
-                            </div>
-                        @endif
                     </div>
 
                     <div class="card-footer">

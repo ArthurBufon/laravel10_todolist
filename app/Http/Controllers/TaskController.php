@@ -35,4 +35,10 @@ class TaskController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function edit($id)
+    {
+        $task = Task::find($id);
+        return view('tasks.form', compact('task'));
+    }
 }

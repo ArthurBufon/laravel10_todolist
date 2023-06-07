@@ -19,13 +19,13 @@
                         {{-- TITULO --}}
                         <div class="form-group">
                             <label for="titulo">Título</label>
-                            <input value="{{ $taks->titulo ?? '' }}" type="text" class="form-control" id="titulo"
+                            <input value="{{ $task->titulo ?? '' }}" type="text" class="form-control" id="titulo"
                                 name="titulo">
                         </div>
                         {{-- DESCRICAO --}}
                         <div class="form-group">
                             <label for="descricao">Descrição</label>
-                            <input value="{{ $taks->descricao ?? '' }}" type="text" class="form-control" id="descricao"
+                            <input value="{{ $task->descricao ?? '' }}" type="text" class="form-control" id="descricao"
                                 name="descricao">
                         </div>
                         @if (isset($task) && $task !== null)

@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <title>@yield('title')</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -21,6 +22,9 @@
     <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE -->
     <script src="{{ asset('adminlte/dist/js/adminlte.js') }}"></script>
+    <!-- Toast -->
+    <script src="{{ asset('toastr/build/toastr.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('toastr/build/toastr.min.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">

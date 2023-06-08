@@ -62,21 +62,47 @@
         }
 
         function excluir(id) {
-            if (confirm("Confirma a exclusão do recibo?")) {
+            if (confirm("Confirma a exclusão da tarefa?")) {
                 event.preventDefault();
                 $.ajax({
                     url: '{{ url('/task/delete') }}',
                     type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                     data: {
-                        '_token': $('meta[name=csrf-token]').attr('content'),
                         id: id
                     },
-                    success: function(response) {
-                        $('#tasks').html(response);
+                    success: function(retorno) {
+                        //3 cards e passar os 3 itens do array retorno
+                        $('#div_importantes').html(retorno.importantes);
+                        $('#div_pendentes').html(retorno.pendentes);
+                        $('#div_concluidas').html(retorno.concluidas);
                         toastr.success("Dados deletados com sucesso");
                     }
                 });
             }
+        }
+
+        function concluir(id) {
+            event.preventDefault();
+            $.ajax({
+                url: '{{ url('/task/concluir') }}',
+                type: 'post',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    id: id
+                },
+                success: function(retorno) {
+                    //3 cards e passar os 3 itens do array retorno
+                    $('#div_importantes').html(retorno.importantes);
+                    $('#div_pendentes').html(retorno.pendentes);
+                    $('#div_concluidas').html(retorno.concluidas);
+                    toastr.success("Parabéns! Você concluiu uma tarefa!");
+                }
+            });
         }
     </script>
 @endsection

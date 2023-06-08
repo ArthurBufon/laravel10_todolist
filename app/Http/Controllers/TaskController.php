@@ -57,7 +57,7 @@ class TaskController extends Controller
             $task->update();
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('message_success', 'Dados salvos com sucesso');
     }
 
     // FORM EDIT TAREFA
@@ -68,18 +68,16 @@ class TaskController extends Controller
     }
 
     // DELETE TAREFA
-    public function delete($id)
+    public function delete(Request $request)
     {
-        $task = Task::find($id);
+        $task = Task::find($request['id']);
 
         if (!$task) {
-            return redirect()->back();
+            return redirect()->back()->with('message_error', 'Erro ao deletar dados.');
         }
-        Task::destroy($id);
+        Task::destroy($request['id']);
 
-        $tasks = Task::all();
-
-        return view('tasks.index', compact('tasks'));
+        return self::list();
     }
 
     // LISTA TAREFAS
@@ -101,13 +99,13 @@ class TaskController extends Controller
                         . '<div class="card-footer" style="height: 50px">'
                             .'<div class="row">'
                                 . '<span class="col-sm-4 text-center">'
-                                    . '<button type="button" class="btn btn-sm">'
+                                    . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                     . '<span class="fa fa-check"></span>'
                                     . '</button>'
                                 . '</span>'
                                 . '<span class="col-sm-4 text-center">'
-                                    .'<button type="button" class="btn btn-sm">'
-                                    . '<span class=" fa fa-trash"></span>'
+                                    .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
+                                        . '<span class=" fa fa-trash"></span>'
                                     . '</button>'
                                 . '</span>'
                                 . '<span class="col-sm-4 text-center">'
@@ -119,51 +117,51 @@ class TaskController extends Controller
             } else if (($task->pendente === 1) && ($task->importante === 0)) {
                 $pendentes .=
                 '<div class="card">'
-                    .'<div class="card-body">'
-                        .$task->descricao
-                    .'</div>'
-                    . '<div class="card-footer" style="height: 50px">'
-                        .'<div class="row">'
-                            . '<span class="col-sm-4 text-center">'
-                                . '<button type="button" class="btn btn-sm">'
-                                . '<span class="fa fa-check"></span>'
-                                . '</button>'
-                            . '</span>'
-                            . '<span class="col-sm-4 text-center">'
-                                .'<button type="button" class="btn btn-sm">'
+                .'<div class="card-body">'
+                    .$task->descricao
+                .'</div>'
+                . '<div class="card-footer" style="height: 50px">'
+                    .'<div class="row">'
+                        . '<span class="col-sm-4 text-center">'
+                            . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
+                            . '<span class="fa fa-check"></span>'
+                            . '</button>'
+                        . '</span>'
+                        . '<span class="col-sm-4 text-center">'
+                            .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                 . '<span class=" fa fa-trash"></span>'
-                                . '</button>'
-                            . '</span>'
-                            . '<span class="col-sm-4 text-center">'
-                                . '<a class="btn-sm text-dark" href="' . route('task_edit', ['id' => $task->id]) . '"><span class="fa fa-pen ml-2"></span></a>'
-                            . '</span>'
-                        .'</div>'
+                            . '</button>'
+                        . '</span>'
+                        . '<span class="col-sm-4 text-center">'
+                            . '<a class="btn-sm text-dark" href="' . route('task_edit', ['id' => $task->id]) . '"><span class="fa fa-pen ml-2"></span></a>'
+                        . '</span>'
                     .'</div>'
-                . '</div>';
+                .'</div>'
+            . '</div>';
             } else if (($task->pendente === 0)) {
                 $concluidas .=
                 '<div class="card">'
-                    .'<div class="card-body">'
-                        .$task->descricao
-                    .'</div>'
-                    . '<div class="card-footer" style="height: 50px">'
-                        .'<div class="row">'
-                            . '<span class="col-sm-4 text-center">'
-                                . '<button type="button" class="btn btn-sm">'
-                                . '<span class="fa fa-check"></span>'
-                                . '</button>'
-                            . '</span>'
-                            . '<span class="col-sm-4 text-center">'
-                                .'<button type="button" class="btn btn-sm">'
+                .'<div class="card-body">'
+                    .$task->descricao
+                .'</div>'
+                . '<div class="card-footer" style="height: 50px">'
+                    .'<div class="row">'
+                        . '<span class="col-sm-4 text-center">'
+                            . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
+                            . '<span class="fa fa-check"></span>'
+                            . '</button>'
+                        . '</span>'
+                        . '<span class="col-sm-4 text-center">'
+                            .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                 . '<span class=" fa fa-trash"></span>'
-                                . '</button>'
-                            . '</span>'
-                            . '<span class="col-sm-4 text-center">'
-                                . '<a class="btn-sm text-dark" href="' . route('task_edit', ['id' => $task->id]) . '"><span class="fa fa-pen ml-2"></span></a>'
-                            . '</span>'
-                        .'</div>'
+                            . '</button>'
+                        . '</span>'
+                        . '<span class="col-sm-4 text-center">'
+                            . '<a class="btn-sm text-dark" href="' . route('task_edit', ['id' => $task->id]) . '"><span class="fa fa-pen ml-2"></span></a>'
+                        . '</span>'
                     .'</div>'
-                . '</div>';
+                .'</div>'
+            . '</div>';
             }
         }
 
@@ -199,5 +197,19 @@ class TaskController extends Controller
         $retorno['concluidas'] = $tarefas_concluidas;
 
         return $retorno;
+    }
+
+    //CONCLUIR TAREFAS
+    public function concluir(Request $request)
+    {
+        $task = Task::find($request['id']);
+
+        if (!$task) {
+            return redirect()->back()->with('message_error', 'Erro ao procurar tarefa.');
+        }
+        $task->pendente = 0;
+        $task->update();
+
+        return self::list();
     }
 }

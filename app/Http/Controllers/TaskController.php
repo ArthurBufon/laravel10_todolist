@@ -88,7 +88,7 @@ class TaskController extends Controller
         $pendentes = '';
         $concluidas = '';
         $importantes = '';
-
+        
         foreach ($tasks as $task) {
             if (($task->pendente === 1) && ($task->importante === 1)) {
                 $importantes .=
@@ -96,14 +96,14 @@ class TaskController extends Controller
                         .'<div class="card-body">'
                             .$task->descricao
                         .'</div>'
-                        . '<div class="card-footer" style="height: 50px">'
+                        . '<div class="card-footer p-2" style="height: 50px">'
                             .'<div class="row">'
-                                . '<span class="col-sm-4 text-center">'
+                                . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                                     . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                     . '<span class="fa fa-check"></span>'
                                     . '</button>'
                                 . '</span>'
-                                . '<span class="col-sm-4 text-center">'
+                                . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                                     .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                         . '<span class=" fa fa-trash"></span>'
                                     . '</button>'
@@ -120,14 +120,14 @@ class TaskController extends Controller
                 .'<div class="card-body">'
                     .$task->descricao
                 .'</div>'
-                . '<div class="card-footer" style="height: 50px">'
+                . '<div class="card-footer p-2" style="height: 50px">'
                     .'<div class="row">'
-                        . '<span class="col-sm-4 text-center">'
+                        . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                             . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                             . '<span class="fa fa-check"></span>'
                             . '</button>'
                         . '</span>'
-                        . '<span class="col-sm-4 text-center">'
+                        . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                             .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                 . '<span class=" fa fa-trash"></span>'
                             . '</button>'
@@ -144,14 +144,14 @@ class TaskController extends Controller
                 .'<div class="card-body">'
                     .$task->descricao
                 .'</div>'
-                . '<div class="card-footer" style="height: 50px">'
+                . '<div class="card-footer p-2" style="height: 50px">'
                     .'<div class="row">'
-                        . '<span class="col-sm-4 text-center">'
+                        . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                             . '<button onclick="concluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                             . '<span class="fa fa-check"></span>'
                             . '</button>'
                         . '</span>'
-                        . '<span class="col-sm-4 text-center">'
+                        . '<span class="col-sm-4 text-center" style="border-right: 1px solid gray;">'
                             .'<button onclick="excluir(' . $task->id . ')" type="button" class="btn btn-sm">'
                                 . '<span class=" fa fa-trash"></span>'
                             . '</button>'

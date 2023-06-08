@@ -43,8 +43,6 @@
     <script>
         $(function() {
             $('#get_tasks').trigger('click');
-
-
         });
 
         function get_tasks() {
@@ -78,7 +76,7 @@
                         $('#div_importantes').html(retorno.importantes);
                         $('#div_pendentes').html(retorno.pendentes);
                         $('#div_concluidas').html(retorno.concluidas);
-                        toastr.success("Dados deletados com sucesso");
+                        toastr.success("Dados deletados com sucesso!");
                     }
                 });
             }

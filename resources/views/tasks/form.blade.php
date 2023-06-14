@@ -5,7 +5,7 @@
 @section('header', 'Listando Tarefas')
 
 @section('content')
-<a href="{{ route('dashboard') }}" class="btn bg-purple mb-3"><span class="fa fa-arrow-left mr-2"></span>Voltar</a>
+    <a href="{{ route('dashboard') }}" class="btn bg-purple mb-3"><span class="fa fa-arrow-left mr-2"></span>Voltar</a>
     <div class="row">
         <div class="col-md-5" style="margin:auto">
 
@@ -13,6 +13,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Nova Tarefa</h3>
                 </div>
+
                 <form method="POST" action="{{ route('task_store') }}">
                     @csrf
 
@@ -24,12 +25,18 @@
                             <label for="titulo">Título</label>
                             <input value="{{ $task->titulo ?? '' }}" type="text" class="form-control" id="titulo"
                                 name="titulo">
+                            @foreach ($errors->get('titulo') as $error)
+                                <p class="text-danger mt-1">{{ $error }}</p>
+                            @endforeach
                         </div>
                         {{-- DESCRICAO --}}
                         <div class="form-group">
                             <label for="descricao">Descrição</label>
                             <input value="{{ $task->descricao ?? '' }}" type="text" class="form-control" id="descricao"
                                 name="descricao">
+                            @foreach ($errors->get('descricao') as $error)
+                                <p class="text-danger mt-1">{{ $error }}</p>
+                            @endforeach
                         </div>
                         {{-- IMPORTANTE --}}
                         <div class="form-check">

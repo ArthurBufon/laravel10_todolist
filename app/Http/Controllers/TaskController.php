@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -24,17 +25,23 @@ class TaskController extends Controller
     public function store(Request $request)
     {
 
-        $input = $request->validate(
+        $validator = Validator::make($request->all(),
             [
                 'titulo' => ['required', 'max:200', 'min:5'],
-                'descricao' => ['required', 'max:200'],
+                'descricao' => ['required', 'max:50', 'min:5'],
             ],
             [
                 'titulo.required' => 'Título é obrigatório!',
                 'titulo.max' => 'Título muito grande!',
                 'titulo.min' => 'Título muito pequeno!',
+                'descricao.required' => 'Descrição é obrigatória!',
+                'descricao.max' => 'Descrição muito grande!',
+                'descricao.min' => 'Descrição muito pequena!',
             ]
         );
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
         $task = Task::find($request['task_id']);
 
@@ -88,13 +95,14 @@ class TaskController extends Controller
         $pendentes = '';
         $concluidas = '';
         $importantes = '';
-        
+
         foreach ($tasks as $task) {
             if (($task->pendente === 1) && ($task->importante === 1)) {
                 $importantes .=
                     '<div class="card">'
                         .'<div class="card-body">'
-                            .$task->descricao
+                            .'<p class="d-block font-weight-bold">'.$task->titulo.'</p>'
+                            .'<p style="margin-top: -3%;">'.$task->descricao.'</p>'
                         .'</div>'
                         . '<div class="card-footer p-2" style="height: 50px">'
                             .'<div class="row">'
@@ -118,7 +126,8 @@ class TaskController extends Controller
                 $pendentes .=
                 '<div class="card">'
                 .'<div class="card-body">'
-                    .$task->descricao
+                    .'<p class="d-block font-weight-bold">'.$task->titulo.'</p>'
+                    .'<p style="margin-top: -3%;">'.$task->descricao.'</p>'
                 .'</div>'
                 . '<div class="card-footer p-2" style="height: 50px">'
                     .'<div class="row">'
@@ -142,7 +151,8 @@ class TaskController extends Controller
                 $concluidas .=
                 '<div class="card">'
                 .'<div class="card-body">'
-                    .$task->descricao
+                    .'<p class="d-block font-weight-bold">'.$task->titulo.'</p>'
+                    .'<p style="margin-top: -3%;">'.$task->descricao.'</p>'
                 .'</div>'
                 . '<div class="card-footer p-2" style="height: 50px">'
                     .'<div class="row">'
